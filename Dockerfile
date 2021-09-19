@@ -27,4 +27,4 @@ ENTRYPOINT ["/usr/local/bin/python", "OpenFlightMapsDownloader.py"]
 #	docker build -t starnutoditopo/openflightmapsdownloader:1.0.0 .
 #
 # Run:
-#   docker run -it --rm -v "${PWD}/Data:/Data" starnutoditopo/openflightmapsdownloader:1.0.0
+#   docker run -it --rm -v "${PWD}/Output:/Output" starnutoditopo/openflightmapsdownloader:1.0.0

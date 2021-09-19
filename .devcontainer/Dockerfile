@@ -20,5 +20,8 @@ RUN apt-get -yqq install unzip curl \
     && unzip -o /tmp/chromedriver.zip chromedriver -d /usr/local/bin/ \
     && pip install selenium
 
+# Add black, so that it can be used to format documents within VSC
+RUN python -m pip install -U black
+
 # Build:
 #   docker build .
