@@ -1,4 +1,4 @@
 **/*.crdownload
 .vscode
-Output/*.zip
+Output
 PartialFiles
