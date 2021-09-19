@@ -1,0 +1,3 @@
+**/*.crdownload
+.vscode
+Data/*.zip
