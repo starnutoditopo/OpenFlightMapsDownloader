@@ -47,4 +47,4 @@ For your convenience, create a .vscode/launch.json file with a content like this
         ]
     }
 
-Open the AipNr6Downloader.py file and press the F5 key to start debugging.
+Open the OpenFlightMapsDownloader.py file and press the F5 key to start debugging.
