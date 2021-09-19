@@ -11,6 +11,7 @@ import os
 import sys
 import getopt
 import shutil
+from itertools import islice, count
 
 default_partials_dir = "/PartialFiles"
 default_output_dir = "/Output"
@@ -118,59 +119,71 @@ def main(argv):
         WebDriverWait(driver=driver, timeout=10).until(
             lambda x: x.execute_script("return document.readyState === 'complete'")
         )
+
+        button_ids_of_interest = []
         buttons = driver.find_elements_by_tag_name("button")
-        for button in buttons:
+        for idx, button in enumerate(buttons):
             button_text = button.text.lower()
             if ("vfr" in button_text) or ("500" in button_text):
-                # try:
-                #  button.click()
-                # except ElementClickInterceptedException as e:
-                #  print(e)
-                #  raise e
+                button_ids_of_interest.append(idx)
+
+        for idx in button_ids_of_interest:
+            # reload all buttons
+            buttons = driver.find_elements_by_tag_name("button")
+            button = next(islice(buttons, idx, None))
+            # Attempt to prevent ElementClickInterceptedException
+            # See: https://stackoverflow.com/a/48667924/1288109
+            driver.execute_script("arguments[0].click();", button)
+
+            # wait the ready state to be complete
+            WebDriverWait(driver=driver, timeout=10).until(
+                lambda x: x.execute_script(
+                    "return document.readyState === 'complete'"
+                )
+            )
+            section = driver.find_element(By.ID, "downloadContent0")
+
+            section_button_ids_of_interest = []
+            section_buttons = section.find_elements_by_tag_name("button")
+            for section_button_idx, section_button in enumerate(section_buttons):
+                if section_button.text.startswith("Download"):
+                    section_button_ids_of_interest.append(section_button_idx)
+
+
+            for section_button_idx in section_button_ids_of_interest:
+                # reload all section buttons
+                section_buttons = driver.find_elements_by_tag_name("button")
+                section_button = next(islice(section_buttons, section_button_idx, None))
+
+                # section_button.click()
 
                 # Attempt to prevent ElementClickInterceptedException
                 # See: https://stackoverflow.com/a/48667924/1288109
-                driver.execute_script("arguments[0].click();", button)
-
-                # wait the ready state to be complete
+                driver.execute_script("arguments[0].click();", section_button)
                 WebDriverWait(driver=driver, timeout=10).until(
                     lambda x: x.execute_script(
                         "return document.readyState === 'complete'"
                     )
                 )
-                section = driver.find_element(By.ID, "downloadContent0")
-                section_buttons = section.find_elements_by_tag_name("button")
-                for section_button in section_buttons:
-                    if section_button.text.startswith("Download"):
-                        # section_button.click()
 
-                        # Attempt to prevent ElementClickInterceptedException
-                        # See: https://stackoverflow.com/a/48667924/1288109
-                        driver.execute_script("arguments[0].click();", section_button)
-                        WebDriverWait(driver=driver, timeout=10).until(
-                            lambda x: x.execute_script(
-                                "return document.readyState === 'complete'"
-                            )
-                        )
+                print("   ... waiting for download process to finish...")
+                wait_for_downloads()
+                print("   done.")
+                region_directory_name = f"{output_dir}/{region_name}"
+                if not os.path.exists(region_directory_name):
+                    os.makedirs(region_directory_name)
 
-                        print("   ... waiting for download process to finish...")
-                        wait_for_downloads()
-                        print("   done.")
-                        region_directory_name = f"{output_dir}/{region_name}"
-                        if not os.path.exists(region_directory_name):
-                            os.makedirs(region_directory_name)
+                downloaded_files = os.listdir(partials_dir)
+                for downloaded_file in downloaded_files:
+                    if downloaded_file.lower().endswith(".zip"):
+                        head, tail = os.path.split(downloaded_file)
+                        print(f'   ... moving file "{tail}" to output folder...')
 
-                        downloaded_files = os.listdir(partials_dir)
-                        for downloaded_file in downloaded_files:
-                            if downloaded_file.lower().endswith(".zip"):
-                                head, tail = os.path.split(downloaded_file)
-                                print(f'   ... moving file "{tail}" to output folder...')
-
-                                # Move and eventually overwrite the existing file
-                                # See: https://stackoverflow.com/a/57911288/1288109
-                                shutil.move(os.path.join(partials_dir, downloaded_file), os.path.join(region_directory_name, tail))
-                                
-                                print(f"   done.")
+                        # Move and eventually overwrite the existing file
+                        # See: https://stackoverflow.com/a/57911288/1288109
+                        shutil.move(os.path.join(partials_dir, downloaded_file), os.path.join(region_directory_name, tail))
+                        
+                        print(f"   done.")
 
         return
 
