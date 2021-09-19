@@ -79,9 +79,11 @@ def main(argv):
             if any(
                 [filename.lower().endswith(".crdownload") for filename in os.listdir(partials_dir)]
             ):
+                #print('      still partial files exist: waiting...')
                 time.sleep(3)
                 continue
             if not any([filename.lower().endswith(".zip") for filename in os.listdir(partials_dir)]):
+                #print('      no zip file exist: waiting...')
                 time.sleep(3)
                 continue
             break;
@@ -141,8 +143,8 @@ def main(argv):
                     "return document.readyState === 'complete'"
                 )
             )
+            
             section = driver.find_element(By.ID, "downloadContent0")
-
             section_button_ids_of_interest = []
             section_buttons = section.find_elements_by_tag_name("button")
             for section_button_idx, section_button in enumerate(section_buttons):
@@ -151,8 +153,10 @@ def main(argv):
 
 
             for section_button_idx in section_button_ids_of_interest:
+                #reload section
+                section = driver.find_element(By.ID, "downloadContent0")
                 # reload all section buttons
-                section_buttons = driver.find_elements_by_tag_name("button")
+                section_buttons = section.find_elements_by_tag_name("button")
                 section_button = next(islice(section_buttons, section_button_idx, None))
 
                 # section_button.click()
