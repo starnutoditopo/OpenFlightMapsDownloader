@@ -20,7 +20,7 @@ After having built the Docker image, in your working folder, create a folder cal
 
     docker run -it --rm -v "${PWD}/Output:/Output" starnutoditopo/openflightmapsdownloader:1.0.0
 
-Find the downloaded files in ./Output.
+**Find the downloaded files in ./Output.**
 
 To get help about other options, specify the **--help** switch:
 
@@ -30,6 +30,11 @@ To get help about other options, specify the **--help** switch:
           -p <partial files directory> (default: /PartialFiles)
           -o <output directory> (default: /Output)
           -t <timeout in seconds> (default: 120)
+
+### How does it work
+
+This script accesses the [OpenFlightMaps](https://www.openflightmaps.org/) site and emulates a user clicking on all "Download" buttons for maps.
+Partial files being downloaded are stored in the /PartialFiles folder. Once each download has finished, the file is moved to its region folder under /Output.
 
 # Develop and debug
 
