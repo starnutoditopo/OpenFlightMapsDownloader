@@ -16,11 +16,11 @@ After having cloned or downloaded this repository, in Powershell, cd the project
 
 ## Run
 
-After having built the Docker image, in your working folder, create a folder called Data, then launch:
+After having built the Docker image, in your working folder, create a folder called Output, then launch:
 
-    docker run -it --rm -v "${PWD}/Data:/Data" starnutoditopo/openflightmapsdownloader:1.0.0
+    docker run -it --rm -v "${PWD}/Output:/Output" starnutoditopo/openflightmapsdownloader:1.0.0
 
-Find the downloaded files in ./Data.
+Find the downloaded files in ./Output.
 
 # Develop and debug
 
