@@ -41,7 +41,7 @@ For your convenience, create a .vscode/launch.json file with a content like this
                 "program": "/workspaces/OpenFlightMapsDownloader/OpenFlightMapsDownloader.py",
                 "console": "integratedTerminal",
                 "args": [
-                    "-o", "./Data"
+                    "-o", "./Output"
                 ]
             }
         ]
