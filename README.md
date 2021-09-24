@@ -22,6 +22,15 @@ After having built the Docker image, in your working folder, create a folder cal
 
 Find the downloaded files in ./Output.
 
+To get help about other options, specify the **--help** switch:
+
+    > docker run -it --rm starnutoditopo/openflightmapsdownloader:1.0.0 --help
+    Usage:
+       OpenFlightMapsDownloader.py [-p <partial files directory>] [-o <output directory>] [-t <timeout in seconds>]
+          -p <partial files directory> (default: /PartialFiles)
+          -o <output directory> (default: /Output)
+          -t <timeout in seconds> (default: 120)
+
 # Develop and debug
 
 This project contains a .devcontainer folder, configured to create a Docker container to be used with Visual Studio Code: just launch VSC and open this folder in container.
