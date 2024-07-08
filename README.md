@@ -62,11 +62,3 @@ For your convenience, create a .vscode/launch.json file with a content like this
     }
 
 Open the OpenFlightMapsDownloader.py file and press the F5 key to start debugging.
-
-## Buy Me A Coffee! :coffee:
-
-If you can contribute or you want to, feel free to do it at [__Buy me a coffee! :coffee:__](https://www.buymeacoffee.com/starnutoditopo), I will be really thankfull for anything even if it is a coffee or just a kind comment towards my work.
-
-:blush:
-
-**Be careful and donate just if it is within your possibilities, because there is no refund system. And remember that you don't need to donate, it is just a free choice for you. Thank you!**
